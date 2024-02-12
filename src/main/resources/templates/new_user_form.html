@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,7 +6,7 @@
 </head>
 <body>
 <br>
-<form th:method="post" th:action="@{/add_user}" th:object="${user}">
+<form th:method="post" th:action="@{/admin/createNew}" th:object="${user}">
     <label for="firstName"> Имя: </label>
     <input type="text" th:field="*{firstName}" id="firstName"/>
     <br/><br/>
@@ -17,9 +16,24 @@
     <label for="birthDay"> Дата рождения: </label>
     <input type="date" th:field="*{birthDay}" id="birthDay"/>
     <br/><br/>
+    <label for="username">Логин</label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <br/><br/>
+    <label for="password">Пароль</label>
+    <input type="password" th:field="*{password}" id="password"/>
+    <br/><br/>
+    <label th:for="${#ids.next('roles')}">Выберите роль:<br/> </label>
+    <input type="checkbox" id="${#ids.next('roles')}"
+           th:each="role : ${roles}"
+           th:text="${role.roleName}"
+           th:value="${role.roleId}"
+           th:field="*{roles}">
+    <br/><br/>
     <input type="submit" value="Добавить"/>
 </form>
 <br>
-<a href="/users">Вернуться к списку пользователей</a>
+<form th:method="GET" th:action="@{/admin}">
+    <input type="submit" value="Отмена">
+</form>
 </body>
 </html>

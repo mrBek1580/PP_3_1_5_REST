@@ -24,6 +24,7 @@ public class User implements UserDetails {
 
     @Column(name = "last_name", nullable = false)
     private String lastName;
+
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birthday")
@@ -43,11 +44,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User( String firstName, String lastName) {
+    public User( String firstName, String lastName, Date birthDay) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.birthDay = birthDay;
     }
-
 
     public Long getId() {
         return userId;

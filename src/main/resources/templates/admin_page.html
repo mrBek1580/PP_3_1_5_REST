@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Пользователи</title>
@@ -24,11 +24,10 @@
 </head>
 <body>
 <h2>Список пользователей</h2>
-<a href="/add_user">
+<a href="admin/add_user">
     <input type="submit" value="Добавить пользователя" class="btn btn-outline-primary me-3">
 </a>
-<br>
-<br>
+<br><br>
 <table th:border="1">
     <tr th:align=center>
         <th>ID</th>
@@ -43,12 +42,16 @@
         <td th:text="${user.getLastName()}"/>
         <td th:text="${user.getBirthDay()}"/>
         <td th:align=center>
-            <a th:href="@{/show_user(id=${user.getId()})}" >Просмотр</a><br>
-            <a th:href="@{/edit_user(id=${user.getId()})}">Редактировать</a>
+            <a th:href="@{admin/{id}/show_user (id=${user.getId()})}">Просмотр</a><br>
+            <a th:href="@{admin/{id}/edit (id=${user.getId()})}">Редактировать</a>
             &nbsp &nbsp
-            <a th:href="@{/delete_user(id=${user.getId()})}">Удалить</a>
+            <a th:href="@{admin/{id}/delete(id=${user.getId()})}">Удалить</a>
         </td>
     </tr>
 </table>
+<br>
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout">
+</form>
 </body>
 </html>

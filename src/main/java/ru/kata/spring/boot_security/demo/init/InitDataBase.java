@@ -10,10 +10,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @Transactional
@@ -46,11 +43,11 @@ public class InitDataBase {
         List<Role> adminRoles = new ArrayList<>();
         List<Role> roles = roleService.getRoles();
         for (Role role : roles) {
-            if (role.getRoleName().equals("ROLE_ADMIN")){
+            if (role.getRoleName().equals("ROLE_ADMIN")|| role.getRoleName().equals("ROLE_USER")){
                 adminRoles.add(role);
             }
         }
-        User admin = new User("admin", "admin");
+        User admin = new User("admin", "admin", new Date());
         admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
@@ -65,9 +62,9 @@ public class InitDataBase {
                 userRoles.add(role);
             }
         }
-        User user = new User("test", "test");
-        user.setUsername("test");
-        user.setPassword(passwordEncoder.encode("test"));
+        User user = new User("user", "user",new Date());
+        user.setUsername("user");
+        user.setPassword(passwordEncoder.encode("user"));
         user.setRoles(userRoles);
         userService.saveUser(user);
     }
