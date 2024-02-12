@@ -8,6 +8,7 @@ public class SpringBootSecurityDemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootSecurityDemoApplication.class, args);
+		System.out.println("Приложение запустилось. Перейдите по адресу http://localhost:8080/");
 	}
 
 }
