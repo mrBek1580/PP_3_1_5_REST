@@ -12,12 +12,12 @@ public class Role implements GrantedAuthority {
 
     @Id
     @Column(name = "role_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "role_name", unique = true, nullable = false)
     private String roleName;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private List<User> users;
 
     public Role() {

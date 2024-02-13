@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
@@ -98,11 +98,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String rolesToString() {
-        return roles.stream()
-                .map(Role::getRoleName)
-                .collect(Collectors.joining(", "));
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
