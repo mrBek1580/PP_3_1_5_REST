@@ -12,9 +12,9 @@ public interface UserService {
 
     void delete(Long userId);
 
-    User getUserById(Long userId);
+    User findUserById(Long userId);
 
-    void updateUser(Long id, User user);
+    void updateUser(User user);
 
-    User getUserByUsername(String username);
+    User findUserByUsername(String username);
 }

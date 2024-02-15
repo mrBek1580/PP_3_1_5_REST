@@ -9,10 +9,11 @@ import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDAO {
+    @PersistenceContext
     private EntityManager entityManager;
 
-    @PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
+
+    public UserDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -29,9 +30,10 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public void removeUserById(Long userId) {
-        entityManager.createQuery("delete User where id = :userId")
-                .setParameter("userId", userId)
-                .executeUpdate();
+        User user = entityManager.find(User.class, userId);
+        if (user!= null) {
+            entityManager.remove(user);
+        }
     }
 
     @Override
@@ -45,9 +47,9 @@ public class UserDaoImpl implements UserDAO {
     }
 
     @Override
-    public User findUserByUsername(String username) {
-        return entityManager.createQuery("select u from User u left join fetch u.roles where u.username = :username",
-                        User.class)
-                .setParameter("username", username).getResultStream().findFirst().orElse(null);
+    public User findByUsername(String username) {
+        return entityManager.createQuery("select u from User u where u.username = :username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
     }
 }

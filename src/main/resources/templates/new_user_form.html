@@ -20,7 +20,7 @@
     <input type="text" th:field="*{username}" id="username"/>
     <br/><br/>
     <label for="password">Пароль</label>
-    <input type="password" th:field="*{password}" id="password"/>
+    <input type="text" th:field="*{password}" id="password"/>
     <br/><br/>
     <label th:for="${#ids.next('roles')}">Выберите роль:<br/> </label>
     <input type="checkbox" id="${#ids.next('roles')}"

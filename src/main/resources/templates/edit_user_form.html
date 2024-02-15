@@ -28,7 +28,8 @@
            th:each="role : ${roles}"
            th:text="${role.roleName}"
            th:value="${role.roleId}"
-           th:field="*{roles}">
+           th:checked="${#lists.contains(user.roles, role)}"/>
+    <!--           th:field="*{roles}"-->
     <br/><br/>
     <input type="submit" value="Сохранить"/>
 </form>

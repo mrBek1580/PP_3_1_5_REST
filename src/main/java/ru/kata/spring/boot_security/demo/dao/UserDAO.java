@@ -10,10 +10,10 @@ public interface UserDAO {
 
     List<User> getAllUsers();
 
-    void removeUserById(Long userId);
+    void removeUserById(Long id);
 
-    User getUserById(Long userId);
+    User getUserById(Long id);
 
     void updateUser(User user);
-    User findUserByUsername(String username);
+    User findByUsername(String username);
 }

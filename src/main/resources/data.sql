@@ -1,27 +1,28 @@
-drop table if exists roles, users, user_role;
+drop table if exists roles, users, user_roles;
 
 create table if not exists users
 (
-    user_id    bigint       not null primary key auto_increment,
-    first_name varchar(255) not null,
-    last_name  varchar(255) not null,
+    id         bigint primary key auto_increment,
+    first_name varchar(50)  not null,
+    last_name  varchar(50)  not null,
     birthday   date,
-    username   varchar(255) not null,
+    username   varchar(50)  not null,
     password   varchar(255) not null
 );
 
 create table if not exists roles
 (
-    role_id   bigint       not null primary key auto_increment,
-    role_name varchar(255) not null
+    id        bigint primary key auto_increment,
+    role_name varchar(50) not null
 );
 
-create table if not exists user_role
+create table if not exists user_roles
 (
     user_id bigint,
-    foreign key (user_id) references users (user_id),
-    role_id int,
-    foreign key (user_id) references users (user_id)
+    foreign key (user_id) references users (id),
+    role_id bigint,
+    foreign key (user_id) references users (id),
+    primary key (user_id, role_id)
 );
 
 insert into users (first_name, last_name, username, password)
@@ -34,15 +35,15 @@ insert into roles (role_name)
 values ('ROLE_ADMIN'),
        ('ROLE_USER');
 
-insert into user_role (user_id, role_id)
-values ((select user_id from users where username = 'admin'),
-        (select role_id from roles where role_name = 'ROLE_ADMIN'));
+insert into user_roles (user_id, role_id)
+values ((select id from users where username = 'admin'),
+        (select id from roles where role_name = 'ROLE_ADMIN'));
 
-insert into user_role (user_id, role_id)
-values ((select user_id from users where username = 'admin'),
-        (select role_id from roles where role_name = 'ROLE_USER'));
+insert into user_roles (user_id, role_id)
+values ((select id from users where username = 'admin'),
+        (select id from roles where role_name = 'ROLE_USER'));
 
-insert into user_role (user_id, role_id)
-values ((select user_id from users where username = 'user'),
-        (select role_id from roles where role_name = 'ROLE_USER'));
+insert into user_roles (user_id, role_id)
+values ((select id from users where username = 'user'),
+        (select id from roles where role_name = 'ROLE_USER'));
 

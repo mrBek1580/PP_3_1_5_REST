@@ -8,11 +8,10 @@ import java.util.Set;
 public interface RoleService {
     Role getRoleById(Long id);
 
-    List<Role> getRoles();
+    Set<Role> getAllRoles();
 
-    void saveRoles(Set<Role> roles);
-
-    void saveRole(Role role);
+    Role saveRole(Role role);
 
     void deleteRoleById(Long id);
+    Set<Role> findDyIds(Set<Long> ids);
 }

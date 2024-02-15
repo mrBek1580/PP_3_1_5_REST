@@ -42,6 +42,9 @@
         <td th:text="${user.getFirstName()}"/>
         <td th:text="${user.getLastName()}"/>
         <td th:text="${user.getBirthDay()}"/>
+        <td>
+            <ul th:each="role: ${user.getRoles()}" th:text="${role.getRoleName()}"/>
+        </td>
         <td th:align=center>
             <a th:href="@{admin/{id}/show_user (id=${user.getId()})}">Просмотр</a><br>
             <a th:href="@{admin/{id}/edit (id=${user.getId()})}">Редактировать</a>
