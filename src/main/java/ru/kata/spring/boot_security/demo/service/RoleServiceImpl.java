@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.RoleDAO;
 import ru.kata.spring.boot_security.demo.entity.Role;
 
-import java.util.List;
 import java.util.Set;
 
 @Service

@@ -7,7 +7,7 @@
 <body>
 <br/>
 <br/>
-<form th:method="post" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
+<form action="#" th:action="@{/admin/{id}/edit_user(id = ${user.getId()})}" th:object="${user}" th:method="post">
     <label for="firstName"> Имя: </label>
     <input type="text" th:field="*{firstName}" id="firstName"/>
     <br/><br/>
@@ -23,13 +23,14 @@
     <label for="password">Пароль</label>
     <input type="password" th:field="*{password}" id="password"/>
     <br/><br/>
-    <label th:for="${#ids.next('roles')}">Выберите роль:<br/> </label>
-    <input type="checkbox" id="${#ids.next('roles')}"
-           th:each="role : ${roles}"
-           th:text="${role.roleName}"
-           th:value="${role.roleId}"
-           th:checked="${#lists.contains(user.roles, role)}"/>
-    <!--           th:field="*{roles}"-->
+    <label>Выберите роль:
+        <input type="checkbox" name="roles"
+               th:each="role : ${roles}"
+               th:value="${role.getRoleId()}"
+               th:text="${role.getRoleName()}"
+               th:checked="${#lists.contains(user.roles, role)}"
+        />
+    </label>
     <br/><br/>
     <input type="submit" value="Сохранить"/>
 </form>

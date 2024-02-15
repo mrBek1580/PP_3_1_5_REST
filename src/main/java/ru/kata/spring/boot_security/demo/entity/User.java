@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,9 +44,7 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true)
     private String username;
 
-    @Column(name = "password")
-    @NotEmpty
-    @Size(min = 3, max = 30, message = "Password should be between 3 and 30 characters")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -60,14 +57,21 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public User(String firstName, String lastName, Date birthDay, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDay = birthDay;
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> roles = new HashSet<>();
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         for (Role role : this.roles) {
-            roles.add(new SimpleGrantedAuthority(role.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
-        return roles;
+        return authorities;
     }
 
     @Override
@@ -170,12 +174,12 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDay=" + birthDay +
-                '}';
+               "id=" + id +
+               ", firstName='" + firstName + '\'' +
+               ", lastName='" + lastName + '\'' +
+               ", birthDay=" + birthDay +
+               ", username='" + username + '\'' +
+               ", roles=" + roles.toString() +
+               '}';
     }
-
-
 }
