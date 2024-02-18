@@ -33,7 +33,9 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return getRoleName();
     }
-
+    public String getRoleNameString() {
+        return getRoleName().replace("ROLE_", "");
+    }
     public Long getRoleId() {
         return id;
     }

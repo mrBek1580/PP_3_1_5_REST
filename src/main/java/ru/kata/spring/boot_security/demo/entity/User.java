@@ -3,15 +3,12 @@ package ru.kata.spring.boot_security.demo.entity;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,15 +30,16 @@ public class User implements UserDetails {
     @Size(min = 2, max = 30, message = "Lastname should be between 2 and 30 characters")
     private String lastName;
 
-    @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past
-    private Date birthDay;
+    @Column(name = "age")
+    @NotNull(message = "Age should not be empty")
+    @Min(1)
+    @Max(100)
+    private int age;
 
     @NotEmpty
     @Size(min = 3, max = 30, message = "Username should be between 3 and 30 characters")
     @Column(name = "username", unique = true)
+    @Email
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -49,18 +47,16 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(String firstName, String lastName, Date birthDay, String username, String password) {
+    public User(String firstName, String lastName, int age, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDay = birthDay;
+        this.age = age;
         this.username = username;
         this.password = password;
     }
@@ -104,8 +100,11 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Set<String> getRoleNames() {
-        return roles.stream().map(Role::getRoleName).collect(Collectors.toSet());
+    public String getRoleNames() {
+        return roles.stream()
+                .map(role -> role.getRoleName()
+                        .replace("ROLE_", ""))
+                .collect(Collectors.joining(" "));
     }
 
     public Long getId() {
@@ -132,12 +131,12 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
+    public int getAge() {
+        return age;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public Set<Role> getRoles() {
@@ -161,25 +160,16 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName,
-                user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDay,
-                user.birthDay);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDay);
+        return Objects.hash(id, firstName, lastName, age);
     }
 
     @Override
     public String toString() {
-        return "User{" +
-               "id=" + id +
-               ", firstName='" + firstName + '\'' +
-               ", lastName='" + lastName + '\'' +
-               ", birthDay=" + birthDay +
-               ", username='" + username + '\'' +
-               ", roles=" + roles.toString() +
-               '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", age=" + age + ", username='" + username + '\'' + ", roles=" + roles.toString() + '}';
     }
 }
