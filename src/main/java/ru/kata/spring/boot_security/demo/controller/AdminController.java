@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-    Logger logger = Logger.getLogger(AdminController.class.getName());
     private static final String REDIRECT_TO_ADMIN = "redirect:/admin";
     private final UserService userServiceImpl;
     private final RoleService roleServiceImpl;
@@ -57,7 +56,7 @@ public class AdminController {
     ) {
         Set<Role> userRoles = new HashSet<>();
         if (roles == null) {
-            userRoles.add(roleServiceImpl.getRoleById(2L));
+            userRoles.add(roleServiceImpl.getRoleByName("ROLE_USER"));
         } else {
             for (Long roleId : roles) {
                 userRoles.add(roleServiceImpl.getRoleById(roleId));
