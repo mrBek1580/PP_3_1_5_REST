@@ -2,19 +2,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="icon" href="https://img.freepik.com/free-icon/leaf_318-654663.jpg">
     <title>Admin panel</title>
 </head>
 <body style="height: 100vh">
-<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
-    <div class="container-fluid d-flex align-items-center">
-        <h1 class="d-flex align-items-center fs-4 text-white mb-0"
+<header class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+    <div class="container-fluid">
+        <h1 class="navbar-brand"
             th:text="${authUser.getUsername()} +' with roles: '+ ${authUser.getRoleNames()}">
         </h1>
-        <a th:href="@{/logout}" class="ms-auto link-secondary text-decoration-none" hreflang="ar">Logout</a>
     </div>
+    <form class="d-flex" th:method="get" th:action="@{/logout}">
+        <button class="btn btn-dark text-secondary" type="submit">Logout</button>
+    </form>
 </header>
 <!--общий контейнер для всего-->
 <div class="container-fluid h-100">
@@ -35,7 +39,7 @@
         </div>
         <!--контейнер для содержимого кнопок боковой панели-->
         <div class="col-md-10 bg-light gx-5 py-3 tab-content">
-            <!--контейнер для для правой части экрана-->
+            <!--контейнер для правой части экрана-->
             <div class="tab-pane fade show active" id="admin-panel" role="tabpanel"
                  aria-labelledby="admin-nav-link"
                  tabindex="0">
@@ -121,7 +125,7 @@
                                                                     <label for="editUserFirstName">
                                                                         <strong>First name</strong>
                                                                         <input class="form-control" th:type="text"
-                                                                               th:name="First_name"
+                                                                               th:name="firstName"
                                                                                id="editUserFirstName"
                                                                                placeholder="First name"
                                                                                th:value="${user.firstName}" required>
@@ -131,7 +135,7 @@
                                                                     <label for="editUserLastName">
                                                                         <strong>Last name</strong>
                                                                         <input class="form-control" th:type="text"
-                                                                               th:name="Last_name"
+                                                                               th:name="lastName"
                                                                                id="editUserLastName"
                                                                                placeholder="Last name"
                                                                                th:value="${user.lastName}" required>
@@ -144,7 +148,7 @@
                                                                                th:name="Age"
                                                                                id="editUserAge"
                                                                                placeholder="Age"
-                                                                               th:value="${user.Age}" required>
+                                                                               th:value="${user.age}" required>
                                                                     </label>
                                                                 </p>
 
@@ -163,8 +167,8 @@
                                                                         <input class="form-control" th:type="password"
                                                                                th:name="password"
                                                                                id="editUserPassword"
-                                                                               placeholder="Password"
-                                                                               th:value="${user.password}" required>
+                                                                               placeholder="Password" required
+                                                                               th:attr="value=${user.id != null ? '' : user.password}">
                                                                     </label>
                                                                 </p>
                                                                 <label class="container-fluid col-6"
@@ -175,11 +179,13 @@
                                                                             multiple size="2">
                                                                         <option th:each="role: ${roles}"
                                                                                 th:value="${role.getRoleId()}">
-                                                                            <th:block th:text="${role.getRoleNameString()}">
+                                                                            <th:block
+                                                                                    th:text="${role.getRoleNameString()}">
                                                                             </th:block>
                                                                         </option>
                                                                     </select>
                                                                 </label>
+
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" id="editFormCloseButton"
@@ -229,7 +235,7 @@
                                                                                name="firstName"
                                                                                id="deleteUserFirstName" disabled
                                                                                th:type="text"
-                                                                               th:name="First_name"
+                                                                               th:name="firstName"
                                                                                th:value="${user.firstName}">
                                                                     </label>
                                                                 </p>
@@ -240,7 +246,7 @@
                                                                                name="lastName"
                                                                                id="deleteUserLastName" disabled
                                                                                th:type="text"
-                                                                               th:name="Last_name"
+                                                                               th:name="lastName"
                                                                                th:value="${user.lastName}">
                                                                     </label>
                                                                 </p>
@@ -251,7 +257,7 @@
                                                                                name="Age"
                                                                                id="deleteUserAge" disabled
                                                                                th:type="number"
-                                                                               th:name="Age"
+                                                                               th:name="age"
                                                                                th:value="${user.age}">
                                                                     </label>
                                                                 </p>
@@ -274,7 +280,8 @@
                                                                             name="roles"
                                                                             multiple size="2" disabled>
                                                                         <option th:each="role: ${user.roles}">
-                                                                            <th:block th:text="${role.getRoleNameString()}">
+                                                                            <th:block
+                                                                                    th:text="${role.getRoleNameString()}">
                                                                             </th:block>
                                                                         </option>
                                                                     </select>
@@ -370,7 +377,7 @@
                 </div>
             </div>
             <!--контейнер для содержимого на кнопке User на боковой панели-->
-            <div class="tab-pane fane" id="user-panel" role="tabpanel"
+            <div class="tab-pane fade" id="user-panel" role="tabpanel"
                  aria-labelledby="user-nav-link" tabindex="0">
                 <h2>User</h2>
                 <div class="tab-content" role="tabpanel" aria-labelledby="admin-nav-link">
@@ -395,7 +402,7 @@
                                     <td th:text="${authUser.getLastName()}"></td>
                                     <td th:text="${authUser.getAge()}"></td>
                                     <td th:text="${authUser.getUsername()}"></td>
-                                    <td th:text="${authUser.getRoles()}"></td>
+                                    <td th:text="${authUser.getRoleNames()}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -406,6 +413,8 @@
         </div>
     </div>
 </div>
-<script th:src="@{js/bootstrap.bundle.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </body>
 </html>

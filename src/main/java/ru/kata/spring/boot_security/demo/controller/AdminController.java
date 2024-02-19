@@ -11,12 +11,16 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
+    Logger logger = Logger.getLogger(AdminController.class.getName());
     private static final String REDIRECT_TO_ADMIN = "redirect:/admin";
     private final UserService userServiceImpl;
     private final RoleService roleServiceImpl;
@@ -48,12 +52,18 @@ public class AdminController {
 
 
     @PostMapping(value = "/{id}/edit_user")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id){
-//                             @RequestParam("roles") Set<Long> roleIds,
-//                             ) {
-//        Set<Role> roles = roleServiceImpl.findDyIds(roleIds);
-//        user.setRoles(roles);
-        user.setId(id);
+    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id,
+                             @RequestParam(required = false) List<Long> roles
+    ) {
+        Set<Role> userRoles = new HashSet<>();
+        if (roles == null) {
+            userRoles.add(roleServiceImpl.getRoleById(2L));
+        } else {
+            for (Long roleId : roles) {
+                userRoles.add(roleServiceImpl.getRoleById(roleId));
+            }
+        }
+        user.setRoles(userRoles);
         userServiceImpl.updateUser(user);
         return REDIRECT_TO_ADMIN;
     }
