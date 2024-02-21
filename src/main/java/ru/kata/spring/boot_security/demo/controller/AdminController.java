@@ -62,7 +62,7 @@ public class AdminController {
             }
         }
         user.setRoles(userRoles);
-        userServiceImpl.updateUser(user);
+        userServiceImpl.updateUser(id, user);
         return REDIRECT_TO_ADMIN;
     }
 
