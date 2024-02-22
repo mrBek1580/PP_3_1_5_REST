@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 public class AdminRestController {
 
     private final UserService userServiceImpl;
@@ -33,7 +33,7 @@ public class AdminRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> showOneUser(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userServiceImpl.findUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -41,12 +41,12 @@ public class AdminRestController {
     @PostMapping
     public ResponseEntity<HttpStatus> addNewUser(@RequestBody @Valid User newUser) {
         userServiceImpl.saveUser(newUser);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PutMapping("/patch")
+    @PutMapping
     public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid User userFromWebPage) {
-        userServiceImpl.saveUser(userFromWebPage);
+        userServiceImpl.updateUser(userFromWebPage);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -61,9 +61,10 @@ public class AdminRestController {
         return ResponseEntity.ok(roleServiceImpl.getAllRoles());
     }
 
-//    @GetMapping("/roles/{id}")
-//    public ResponseEntity<Collection<Role>> getRole(@PathVariable("id") Long id) {
-//        return new ResponseEntity<>(userServiceImpl.findUserById(id).getRoles(), HttpStatus.OK);
-//    }
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+        User user = userServiceImpl.findUserByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
 }
