@@ -1,20 +1,15 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Admin panel</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="icon" href="https://img.freepik.com/free-icon/leaf_318-654663.jpg">
 </head>
-
-
 <body>
-<!--ШАПКА-->
+<!--Header-->
 <div class="container-fluid">
     <dl class="row p-2 bg-dark text-white">
         <div class="col-11 text-left">
@@ -29,10 +24,9 @@
         </div>
     </dl>
 </div>
-
 <div class="container-fluid">
     <div class="row" style="background-color: #f8f9fa">
-        <!--Кнопки-->
+        <!--Button-->
         <div class="col-md-2 col-sm-3 text-left bg-white min-vh-100">
             <div class="d-flex align-items-start">
                 <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -49,7 +43,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-10 col-sm-9">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="allUsers" role="tabpanel" aria-labelledby="home-tab">
@@ -58,7 +51,7 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                    aria-selected="true">All users
+                                    aria-selected="true">Users table
                             </button>
                             <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
@@ -66,9 +59,10 @@
                             </button>
                         </div>
                     </nav>
-
+                    <br>
+                    <!--Users table-->
                     <div class="tab-content" id="nav-tabContent">
-                        <!--Таблица юзеров-->
+                        <h5 class="card-header">All users</h5>
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                              aria-labelledby="nav-home-tab" tabindex="0">
                             <table class="table table-striped" id="tableUsers">
@@ -85,11 +79,10 @@
                                 </tr>
                                 </thead>
                                 <tbody id="allUsersBody">
-
                                 </tbody>
                             </table>
                         </div>
-                        <!--Создание нового пользователя-->
+                        <!--Add user-->
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
                              tabindex="0">
                             <div class="d-grid gap-2 col-md-4 col-sm-6 mx-auto p-1 text-center">
@@ -131,16 +124,13 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
-                <!--Таблица текущего пользователя-->
+                <!--Current user-->
                 <div class="tab-pane fade" id="one-user" role="tabpanel" aria-labelledby="one-user-tab"
                      tabindex="0">
                     <h1>User information-page</h1>
-
                     <table class="table table-striped">
+                        <caption>About user</caption>
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -152,21 +142,14 @@
                         </tr>
                         </thead>
                         <tbody id="oneUserBody">
-
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
-
         </div>
-
-
     </div>
 </div>
-
-<!-- Удаление пользователя -->
+<!--Delete user-->
 <div class="modal fade" id="deleteModal" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -216,11 +199,10 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
-<!-- Редактирование пользователя-->
+<!--Edit user-->
 <div class="modal fade" id="editModal" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -272,11 +254,9 @@
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
 <script src="/js/admin.js"></script>
-
 </body>
 </html>

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.RoleDAO;
 import ru.kata.spring.boot_security.demo.entity.Role;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 @Transactional
@@ -20,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Role> getAllRoles() {
+    public List<Role> getAllRoles() {
         return roleRepository.getAllRoles();
     }
 
@@ -45,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<Role> findDyIds(Set<Long> ids) {
+    public List<Role> findDyIds(List<Long> ids) {
         return roleRepository.findByIds(ids);
     }
 }

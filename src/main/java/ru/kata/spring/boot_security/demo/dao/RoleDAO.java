@@ -2,18 +2,18 @@ package ru.kata.spring.boot_security.demo.dao;
 
 import ru.kata.spring.boot_security.demo.entity.Role;
 
-import java.util.Set;
+import java.util.List;
 
 public interface RoleDAO {
     Role getRoleById(Long id);
 
     Role getRoleByName(String name);
 
-    Set<Role> getAllRoles();
+    List<Role> getAllRoles();
 
     Role saveRole(Role role);
 
     void deleteRoleById(Long id);
 
-    Set<Role> findByIds(Set<Long> ids);
+    List<Role> findByIds(List<Long> ids);
 }

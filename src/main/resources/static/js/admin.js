@@ -30,8 +30,9 @@ fetch("/api/admin/current").then(res => res.json())
         currentUser = data;
         console.log(data)
         showOneUser(currentUser);
-        document.getElementById("headUsername").innerText= currentUser.username;
-        document.getElementById("headRoles").innerText = currentUser.roles.map(role => role.roleNameString).join(" ");
+        document.getElementById("headUsername").innerText = currentUser.username;
+        document.getElementById("headRoles").innerText = currentUser.roles.map(role => role.roleNameString)
+            .join(" ");
     })
 
 function showUsers(table) {
@@ -44,8 +45,10 @@ function showUsers(table) {
         temp += "<td>" + user.age + "</td>"
         temp += "<td>" + user.username + "</td>"
         temp += "<td>" + user.roles.map(role => role.roleNameString).join(" ") + "</td>"
-        temp += "<td>" + `<a onclick='showEditModal(${user.id})' class="btn btn-outline-info" id="edit">Edit</a>` + "</td>"
-        temp += "<td>" + `<a onclick='showDeleteModal(${user.id})' class="btn btn-outline-danger" id="delete">Delete</a>` + "</td>"
+        temp += "<td>" + `<a onclick='showEditModal(${user.id})' 
+                            class="btn btn-outline-info" id="edit">Edit</a>` + "</td>"
+        temp += "<td>" + `<a onclick='showDeleteModal(${user.id})' 
+                            class="btn btn-outline-danger" id="delete">Delete</a>` + "</td>"
         temp += "</tr>"
         document.getElementById("allUsersBody").innerHTML = temp;
     })
@@ -54,10 +57,10 @@ function showUsers(table) {
 function getRoles(list) {
     let userRoles = [];
     for (let role of list) {
-        if (role === 2 || role.id === 2) {
+        if (role === 1 || role.id === 1) {
             userRoles.push("ADMIN");
         }
-        if (role === 1 || role.id === 1) {
+        if (role === 2 || role.id === 2) {
             userRoles.push("USER");
         }
     }
@@ -77,9 +80,16 @@ function showOneUser(user) {
     document.getElementById("oneUserBody").innerHTML = temp;
 }
 
+function createRole(roleId, roleName) {
+    return {
+        roleId,
+        roleName,
+    };
+}
+
 function rolesUser(event) {
-    let rolesAdmin = {};
-    let rolesUser = {};
+    const rolesAdmin = createRole(1, "ROLE_ADMIN");
+    const rolesUser = createRole(2, "ROLE_USER");
     let roles = [];
     let allRoles = [];
     let sel = document.querySelector(event);
@@ -88,15 +98,13 @@ function rolesUser(event) {
             roles.push(sel.options[i].value);
         }
     }
-    if (roles.includes('2')) {
-        rolesAdmin["id"] = 2;
-        rolesAdmin["name"] = "ROLE_ADMIN";
+    if (roles.includes('1')) {
         allRoles.push(rolesAdmin);
     }
-    if (roles.includes('1')) {
-        rolesUser["id"] = 1;
-        rolesUser["name"] = "ROLE_USER";
+    if (roles.includes('2')) {
         allRoles.push(rolesUser);
+    } else if (roles.length === 0) {
+        allRoles.push(rolesUser)
     }
     return allRoles;
 }
@@ -107,7 +115,6 @@ function addNewUser(form) {
     form.preventDefault();
     let newUserForm = new FormData(form.target);
     let user = {
-        id: null,
         firstName: newUserForm.get('firstName'),
         lastName: newUserForm.get('lastName'),
         age: newUserForm.get('age'),
@@ -115,7 +122,6 @@ function addNewUser(form) {
         password: newUserForm.get('password'),
         roles: rolesUser("#roles")
     };
-
     let req = new Request("/api/admin", {
         method: 'POST',
         body: JSON.stringify(user),
@@ -177,7 +183,6 @@ function showDeleteModal(id) {
             });
             document.getElementById('deleteUser').reset();
         }
-
         deleteModal.hide();
     });
 }
@@ -204,12 +209,12 @@ function showEditModal(id) {
             } else if (editUser.roles.map(role => role.id) === 2) {
                 document.getElementById('rolesRed2').setAttribute('selected', 'true');
             }
-            console.log(editUser)
             editModal.show();
         }
     );
     document.getElementById('editUser').addEventListener('submit', submitFormEditUser);
 }
+
 function submitFormEditUser(event) {
     event.preventDefault();
     let redUserForm = new FormData(event.target);
@@ -222,7 +227,6 @@ function submitFormEditUser(event) {
         password: redUserForm.get('password'),
         roles: rolesUser("#rolesRed")
     }
-    console.log(user);
     let request = new Request("/api/admin", {
         method: 'PUT',
         body: JSON.stringify(user),
@@ -231,8 +235,7 @@ function submitFormEditUser(event) {
         },
     });
     fetch(request).then(
-        function (response) {
-            console.log(response)
+        function () {
             getUsers();
             event.target.reset();
             editModal.hide();
