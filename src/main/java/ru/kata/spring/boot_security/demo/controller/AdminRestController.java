@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +8,6 @@ import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -40,13 +37,13 @@ public class AdminRestController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addNewUser(@RequestBody @Valid User newUser) {
+    public ResponseEntity<HttpStatus> addNewUser(@RequestBody User newUser) {
         userServiceImpl.saveUser(newUser);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid User userFromWebPage) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User userFromWebPage) {
         userServiceImpl.updateUser(userFromWebPage);
         return ResponseEntity.ok(HttpStatus.OK);
     }

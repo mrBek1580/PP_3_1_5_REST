@@ -2,9 +2,7 @@ package ru.kata.spring.boot_security.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 @Entity
@@ -14,8 +12,8 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "role_name", unique = true)
-    @NotEmpty
     private String roleName;
 
     @JsonIgnore
@@ -33,9 +31,11 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return getRoleName();
     }
+
     public String getRoleNameString() {
         return getRoleName().replace("ROLE_", "");
     }
+
     public Long getRoleId() {
         return id;
     }
@@ -60,24 +60,4 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(id, role.id) && Objects.equals(roleName, role.roleName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, roleName);
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "roleId=" + id +
-                ", roleName='" + roleName + '\'' +
-                '}';
-    }
 }
