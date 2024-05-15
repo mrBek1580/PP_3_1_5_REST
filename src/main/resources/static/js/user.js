@@ -2,7 +2,7 @@
 
 
 
-fetch("/api/user/current")
+fetch("/api/users/current")
     .then(res => res.json())
     .then(data => {
         currentUser = data;
@@ -24,4 +24,3 @@ fetch("/api/user/current")
     temp += "</tr>"
     document.getElementById("oneUserBody").innerHTML = temp;
 }
-

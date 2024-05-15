@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/users")
 public class UserRestController {
 
     private final UserService userServiceImpl;

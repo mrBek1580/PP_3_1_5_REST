@@ -2,7 +2,7 @@ let tableUsers = [];
 let currentUser = "";
 let deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
 let editModal = new bootstrap.Modal(document.getElementById('editModal'));
-let request = new Request("/api/admin", {
+let request = new Request("/api/users", {
     method: "GET",
     headers: {
         'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ function getUsers() {
     })
 }
 
-fetch("/api/admin/current").then(res => res.json())
+fetch("/api/users/current").then(res => res.json())
     .then(data => {
         currentUser = data;
         console.log(data)
